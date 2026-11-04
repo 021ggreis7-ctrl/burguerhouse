@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#151515">
+  <meta name="description" content="BURGUER HOUSE. Hambúrgueres artesanais, acompanhamentos e bebidas. Monte seu pedido e finalize pelo WhatsApp.">
+  <title>BURGUER HOUSE. | Cardápio digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header__row">
+    <a href="#topo" class="logo" aria-label="BURGUER HOUSE.">BURGUER<span>HOUSE.</span></a>
+    <span class="status" id="status"><i></i><b id="statusText">Verificando…</b></span>
+    <button class="cart-btn" id="openCart" aria-label="Abrir carrinho">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+      <span class="cart-btn__count" id="cartCount">0</span>
+    </button>
+  </div>
+  <nav class="nav" aria-label="Categorias">
+    <a href="#hamburgueres" class="active">Hambúrgueres</a>
+    <a href="#acompanhamentos">Acompanhamentos</a>
+    <a href="#bebidas">Bebidas</a>
+  </nav>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="hero__text">
+      <h1>Hambúrguer de verdade, do seu jeito.</h1>
+      <p>Carne suculenta, pão macio e adicionais para você montar o pedido. Escolha, personalize e envie pelo WhatsApp.</p>
+      <a href="#hamburgueres" class="btn btn--primary" id="heroCta">Ver cardápio</a>
+    </div>
+    <div class="hero__img">
+      <img src="public/images/5C24F9E7-1A93-423F-8C48-1B32E0D197DE.jpeg" alt="X-Burguer da BURGUER HOUSE." fetchpriority="high">
+      <span class="hero__tag">X-Burguer <b>R$ 19,90</b></span>
+    </div>
+  </section>
+
+  <div class="container" id="menu"></div>
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <div class="logo">BURGUER<span>HOUSE.</span></div>
+      <p>Cardápio digital de demonstração.</p>
+    </div>
+    <div>
+      <h4>Funcionamento</h4>
+      <p id="footerHours"></p>
+    </div>
+    <div>
+      <h4>Pedidos</h4>
+      <p>Finalize pelo WhatsApp e aguarde a confirmação do estabelecimento.</p>
+    </div>
+  </div>
+  <p class="footer__copy">Projeto demonstrativo desenvolvido por <b>EACE</b></p>
+</footer>
+
+<button class="fab" id="fab" aria-label="Ver carrinho" hidden>
+  <span>Ver carrinho · <b id="fabCount">0</b></span><strong id="fabTotal">R$ 0,00</strong>
+</button>
+
+<!-- Personalização -->
+<div class="overlay" id="customOverlay" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="customTitle">
+    <button class="close" data-close="customOverlay" aria-label="Fechar">&times;</button>
+    <img id="customImg" alt="">
+    <div class="sheet__body">
+      <h3 id="customTitle"></h3>
+      <p class="muted" id="customDesc"></p>
+      <h4>Adicionais <small>(opcional)</small></h4>
+      <div id="addonList"></div>
+      <label class="field">
+        <span>Observações</span>
+        <textarea id="customNote" rows="2" maxlength="140" placeholder="Ex.: sem cebola, sem molho"></textarea>
+      </label>
+    </div>
+    <div class="sheet__foot">
+      <div class="qty">
+        <button id="cQtyMinus" aria-label="Diminuir">−</button><b id="cQty">1</b><button id="cQtyPlus" aria-label="Aumentar">+</button>
+      </div>
+      <button class="btn btn--primary" id="customAdd">Adicionar · <span id="customTotal"></span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Carrinho -->
+<div class="overlay overlay--drawer" id="cartOverlay" aria-hidden="true">
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="drawer__head">
+      <h3 id="cartTitle">Seu pedido</h3>
+      <button class="close close--inline" data-close="cartOverlay" aria-label="Fechar carrinho">&times;</button>
+    </div>
+    <div class="drawer__body">
+      <div id="cartEmpty" class="empty">
+        <p><b>Seu carrinho está vazio</b></p>
+        <p class="muted">Escolha um item do cardápio para começar.</p>
+        <button class="btn btn--ghost" data-close="cartOverlay">Ver cardápio</button>
+      </div>
+      <ul id="cartList" class="cart-list"></ul>
+
+      <form id="checkout" class="checkout" novalidate hidden>
+        <h4>Finalizar pedido</h4>
+        <label class="field">
+          <span>Seu nome</span>
+          <input type="text" id="cName" autocomplete="name" placeholder="Como podemos te chamar?">
+          <em class="error" id="eName"></em>
+        </label>
+        <div class="field">
+          <span>Tipo de pedido</span>
+          <div class="seg">
+            <label><input type="radio" name="tipo" value="Entrega" checked><b>Entrega</b></label>
+            <label><input type="radio" name="tipo" value="Retirada"><b>Retirada</b></label>
+          </div>
+        </div>
+        <label class="field" id="addrField">
+          <span>Endereço de entrega</span>
+          <textarea id="cAddr" rows="2" autocomplete="street-address" placeholder="Rua, número, bairro e referência"></textarea>
+          <em class="error" id="eAddr"></em>
+        </label>
+        <label class="field">
+          <span>Observações gerais <small>(opcional)</small></span>
+          <textarea id="cNote" rows="2" maxlength="200" placeholder="Ex.: troco para R$ 50"></textarea>
+        </label>
+      </form>
+    </div>
+    <div class="drawer__foot" id="cartFoot" hidden>
+      <div class="row"><span>Subtotal</span><span id="subtotal"></span></div>
+      <div class="row row--total"><span>Total</span><span id="total"></span></div>
+      <button class="btn btn--primary btn--block" id="finish">Finalizar pedido pelo WhatsApp</button>
+      <button class="link" id="clearCart">Esvaziar carrinho</button>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
