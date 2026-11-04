@@ -5,7 +5,7 @@ const WHATSAPP_NUMBER = '5592985218645';
 const HORARIO = { abre: '18:00', fecha: '23:30' }; // horário exibido e usado no indicador
 const STORAGE_KEY = 'burguerhouse_cart_v1';
 
-const IMG = '/images/';
+const IMG = '/';
 const CATEGORIAS = [
   { id: 'hamburgueres', nome: 'Hambúrgueres', emoji: '🍔' },
   { id: 'acompanhamentos', nome: 'Acompanhamentos', emoji: '🍟' },
